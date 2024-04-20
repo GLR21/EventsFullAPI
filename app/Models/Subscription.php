@@ -9,6 +9,17 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    protected $table = 'subscriptions';
+
+    protected $fillable = [
+        'ref_user',
+        'ref_event',
+        'dt_subscription',
+        'dt_unsubscription',
+        'dt_checkin',
+        'dt_email_sent'
+    ];
+
     public $timestamps = false;
 
     public function user()

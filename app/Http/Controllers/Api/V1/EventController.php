@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\UpdateEventRequest;
+use App\Http\Requests\V1\StoreEventRequest;
+use App\Http\Requests\V1\UpdateEventRequest;
+use App\Http\Resources\V1\EventCollection;
+use App\Http\Resources\V1\EventResource;
 use App\Models\Event;
 
 
@@ -15,7 +17,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
+        return new EventCollection(Event::all());
     }
 
     /**
@@ -39,7 +41,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return $event;
+        return new EventResource( $event );
     }
 
     /**
