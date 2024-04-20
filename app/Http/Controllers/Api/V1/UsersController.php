@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUsersRequest;
-use App\Http\Requests\UpdateUsersRequest;
+use App\Http\Requests\V1\StoreUsersRequest;
+use App\Http\Requests\V1\UpdateUsersRequest;
 use App\Models\Users;
+use App\Http\Resources\V1\UsersCollection;
+use App\Http\Resources\V1\UsersResource;
 
 class UsersController extends Controller
 {
@@ -14,7 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return Users::all();
+        return new UsersCollection(Users::all());
     }
 
     /**
@@ -30,15 +32,17 @@ class UsersController extends Controller
      */
     public function store(StoreUsersRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['password'] = md5($data['password']);
+        return new UsersResource(Users::create($data));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Users $users)
+    public function show(Users $user)
     {
-        //
+        return new UsersResource($user);
     }
 
     /**
