@@ -1,19 +1,10 @@
 <?php
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-
-
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function () {
 
-    // Route::middleware()
-    // Route::middleware()->group(function () {
-
         Route::get('events', 'EventController@index');
         Route::get('events/{event}', 'EventController@show');
-
 
         Route::get('subscriptions', 'SubscriptionController@index');
         Route::get('subscriptions/{subscription}', 'SubscriptionController@show');
@@ -30,7 +21,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
         Route::post('users/register', 'UsersController@store');
 
         Route::post('auth/', 'AuthController@auth');
-
-    // });
 });
 ?>
