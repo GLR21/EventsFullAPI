@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\LogController;
+use App\Models\Log;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,16 @@ class BearerAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+
+        $log = new Log(
+            [
+                'url' => $request->url(),
+                'method' => $request->method(),
+                'request_body' => json_encode($request->all()),
+                'dt_log' => now()
+            ]
+        );
+        Log::create( $log->toArray() );
 
         $validToken = env('API_TOKEN');
 
