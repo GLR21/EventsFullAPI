@@ -18,16 +18,12 @@ class BearerAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $this->logRequest($request);
 
-        $log = new Log(
-            [
-                'url' => $request->url(),
-                'method' => $request->method(),
-                'request_body' => json_encode($request->all()),
-                'dt_log' => now()
-            ]
-        );
-        Log::create( $log->toArray() );
+        if( !str_contains( $request->path(), 'api/v1/' )  )
+        {
+                return $next($request);
+        }
 
         $validToken = env('API_TOKEN');
 
@@ -42,5 +38,18 @@ class BearerAuthMiddleware
         }
 
         return $next($request);
+    }
+
+    private function logRequest(Request $request)
+    {
+        $log = new Log(
+            [
+                'url' => $request->url(),
+                'method' => $request->method(),
+                'request_body' => json_encode($request->all()),
+                'dt_log' => now()
+            ]
+        );
+        Log::create( $log->toArray() );
     }
 }
