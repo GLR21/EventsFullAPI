@@ -12,9 +12,55 @@ use App\Models\Event;
 
 class EventController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     */
+     * @OA\Get(
+     *      path="/api/v1/events",
+     *      operationId="index",
+     *      tags={"Events"},
+     *      summary="List all events",
+     *      description="Returns a list of all events",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="array",
+     *              @OA\Items(
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                ),
+     *                @OA\Property(
+     *                  property="name",
+     *                  type="string",
+     *                ),
+     *                @OA\Property(
+     *                  property="description",
+     *                  type="string"
+     *                ),
+     *                @OA\Property(
+     *                  property="dt_start",
+     *                  type="date"
+     *                ),
+     *                @OA\Property(
+     *                  property="dt_end",
+     *                  type="date"
+     *                ),
+     *                @OA\Property(
+     *                  property="dt_start_subscription",
+     *                  type="date"
+     *                ),
+     *                @OA\Property(
+     *                  property="dt_end_subscription",
+     *                  type="date"
+     *                ),
+     *              )
+     *            )
+     *     )
+     *
+     * )
+    */
     public function index()
     {
         return new EventCollection(Event::all());
@@ -36,9 +82,61 @@ class EventController extends Controller
         //
     }
 
+
     /**
-     * Display the specified resource.
-     */
+    * @OA\Get(
+    *      path="/api/v1/events/{event}",
+    *      operationId="show",
+    *      tags={"Events"},
+    *      summary="Show an event",
+    *      description="Returns an event by ID",
+    *      security={{"bearerAuth": {}}},
+    *      @OA\Parameter(
+    *          name="event",
+    *          in="path",
+    *          description="Event ID",
+    *          required=true,
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(
+    *              type="object",
+    *              @OA\Property(
+    *                  property="id",
+    *                  type="integer",
+    *              ),
+    *              @OA\Property(
+    *                  property="name",
+    *                  type="string",
+    *              ),
+    *              @OA\Property(
+    *                  property="description",
+    *                  type="string"
+    *              ),
+    *              @OA\Property(
+    *                  property="dt_start",
+    *                  type="date"
+    *              ),
+    *              @OA\Property(
+    *                  property="dt_end",
+    *                  type="date"
+    *              ),
+    *              @OA\Property(
+    *                  property="dt_start_subscription",
+    *                  type="date"
+    *              ),
+    *              @OA\Property(
+    *                  property="dt_end_subscription",
+    *                  type="date"
+    *              ),
+    *          )
+    *       ),
+    *     )
+    */
     public function show(Event $event)
     {
         return new EventResource( $event );

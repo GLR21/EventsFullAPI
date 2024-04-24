@@ -11,9 +11,45 @@ use App\Http\Resources\V1\UsersResource;
 
 class UsersController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     */
+     * @OA\Get(
+     *     path="/api/v1/users",
+     *     tags={"Users"},
+     *     summary="List all users",
+     *     description="Returns a list of all users",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *          type="array",
+     *          @OA\Items(
+     *              @OA\Property(
+     *                  property="id",
+     *                  type="integer"
+     *              ),
+     *              @OA\Property(
+     *                  property="name",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="email",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="document",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="password",
+     *                  type="string"
+     *              ),
+     *          )
+     *     )
+     *   )
+     * )
+    */
     public function index()
     {
         return new UsersCollection(Users::all());
@@ -28,8 +64,82 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
+     * @OA\Post(
+     *     path="/api/v1/users/register",
+     *     tags={"Users"},
+     *      summary="Create user",
+     *      description="Create a new user",
+     *      @OA\RequestBody(
+     *         @OA\JsonContent(
+     *            @OA\Property(
+     *              property="name",
+     *              type="string",
+     *              description="User name"
+     *            ),
+     *            @OA\Property(
+     *              property="email",
+     *              type="string",
+     *              description="User e-mail"
+     *            ),
+     *            @OA\Property(
+     *              property="document",
+     *              type="string",
+     *              description="User document"
+     *            ),
+     *            @OA\Property(
+     *              property="password",
+     *              type="string",
+     *              description="User password"
+     *            )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *         response=201,
+     *         description="User created successfully",
+     *         @OA\JsonContent(
+     *           type="object",
+     *           @OA\Property(
+     *              property="id",
+     *             type="integer"
+     *           ),
+     *           @OA\Property(
+     *               property="name",
+     *               type="string"
+     *           ),
+     *           @OA\Property(
+     *               property="email",
+     *               type="string"
+     *           ),
+     *           @OA\Property(
+     *               property="document",
+     *               type="string"
+     *           ),
+     *           @OA\Property(
+     *               property="password",
+     *               type="string"
+     *           ),
+     *         ),
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object"
+     *              )
+     *          )
+     *      )
+     *   )
+     *  )
+     * )
+     *
+    */
     public function store(StoreUsersRequest $request)
     {
         $data = $request->all();
@@ -38,8 +148,52 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
+     * /**
+     * @OA\Get(
+     *      path="/api/v1/users/{user}",
+     *      tags={"Users"},
+     *      summary="Show user",
+     *      description="Returns a user by ID",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\Parameter(
+     *          name="user",
+     *          in="path",
+     *          description="ID of user",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Response Message",
+     *          @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                  property="id",
+     *                  type="integer"
+     *              ),
+     *              @OA\Property(
+     *                  property="name",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="email",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="document",
+     *                  type="string"
+     *              ),
+     *              @OA\Property(
+     *                  property="password",
+     *                  type="string"
+     *              ),
+     *       ),
+     *     )
+     * )
+     *
+    */
     public function show(Users $user)
     {
         return new UsersResource($user);
