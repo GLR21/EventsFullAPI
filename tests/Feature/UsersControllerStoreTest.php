@@ -17,9 +17,6 @@ class UsersControllerStoreTest extends TestCase
      */
     public function testStore()
     {
-        // Create a user and obtain a token
-        $user = Users::factory()->create();
-
         // Create a user payload
         $userPayload = [
             'name' => 'Test User',
