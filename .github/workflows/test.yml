@@ -21,7 +21,7 @@ jobs:
 
       - name: Wait for PostgreSQL
         run: |
-          until docker-compose exec pgsql pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }}; do
+          until docker-compose exec -T pgsql pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }}; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 3
           done
