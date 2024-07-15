@@ -29,7 +29,7 @@ jobs:
         run: docker-compose exec -T laravel.test composer install
         
       - name: Run migrations
-        run: docker-compose exec -T laravel.test php artisan migrate --env=testing --force
+        run: docker-compose exec -T laravel.test php artisan migrate
 
       - name: Run tests
         run: docker-compose exec -T laravel.test php artisan test
