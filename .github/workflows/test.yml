@@ -1,0 +1,37 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d pgsql
+          docker-compose -f docker-compose.yml build laravel.test
+          docker-compose -f docker-compose.yml up -d laravel.test
+
+      - name: Wait for PostgreSQL
+        run: |
+          until docker-compose exec pgsql pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }}; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 3
+          done
+
+      - name: Run migrations
+        run: docker-compose exec -T laravel.test php artisan migrate --env=testing --force
+
+      - name: Run tests
+        run: docker-compose exec -T laravel.test php artisan test
+
+      - name: Tear down Docker Compose
+        if: always()
+        run: docker-compose -f docker-compose.yml down
