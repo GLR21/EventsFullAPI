@@ -25,6 +25,9 @@ jobs:
             sleep 3
           done
 
+      - name: Instalando composer
+        run: docker-compose exec -T laravel.test composer install
+        
       - name: Run migrations
         run: docker-compose exec -T laravel.test php artisan migrate --env=testing --force
 
