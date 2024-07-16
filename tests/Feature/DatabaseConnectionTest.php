@@ -15,7 +15,7 @@ class DatabaseConnectionTest extends TestCase
         try
         {
             DB::connection()->getPdo();
-            $this->assertTrue(true, 'Conexão estabelecida com a database teste.');
+            $this->assertTrue(true, 'Conexão estabelecida com a database.');
         } catch (\Exception $e)
         {
             $this->fail('Não foi possível estabelecer conexão com a database: ' . $e->getMessage());
