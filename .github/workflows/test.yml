@@ -15,13 +15,13 @@ jobs:
 
       - name: Set up Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d pgsql
+          docker-compose -f docker-compose.yml up -d pgsql.test
           docker-compose -f docker-compose.yml build laravel.test
           docker-compose -f docker-compose.yml up -d laravel.test
 
       - name: Wait for PostgreSQL
         run: |
-          until docker-compose exec -T pgsql pg_isready -U $DB_USERNAME -d $DB_DATABASE; do
+          until docker-compose exec -T pgsql.test pg_isready -U $DB_USERNAME -d $DB_DATABASE; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 3
           done
