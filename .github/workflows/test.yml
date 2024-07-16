@@ -18,6 +18,15 @@ jobs:
           docker-compose -f docker-compose.yml build laravel.test
           docker-compose -f docker-compose.yml up -d laravel.test
 
+      - name: Create .env.testing file for Docker Compose
+        run: |
+          echo DB_CONNECTION=pgsql >> .env.testing
+          echo DB_HOST=pgsql >> .env.testing
+          echo DB_PORT=5432 >> .env.testing
+          echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env.testing
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env.testing
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env.testing
+
       - name: Wait for PostgreSQL
         run: |
           until docker-compose exec -T pgsql pg_isready -U ${{ secrets.DB_USERNAME }} -d ${{ secrets.DB_DATABASE }}; do
@@ -25,14 +34,14 @@ jobs:
             sleep 3
           done
 
-      - name: Instalando composer
+      - name: Install Composer dependencies
         run: docker-compose exec -T laravel.test composer install
-        
+
       - name: Run migrations
-        run: docker-compose exec -T laravel.test php artisan migrate
+        run: docker-compose exec -T laravel.test php artisan migrate --env=testing --force
 
       - name: Run tests
-        run: docker-compose exec -T laravel.test php artisan test
+        run: docker-compose exec -T laravel.test php artisan test --env=testing
 
       - name: Tear down Docker Compose
         if: always()
