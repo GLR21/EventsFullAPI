@@ -9,7 +9,7 @@ BEGIN
    IF NOT EXISTS (
       SELECT FROM pg_catalog.pg_roles
       WHERE rolname = 'testing') THEN
-      CREATE ROLE testing WITH LOGIN SUPERUSER PASSWORD 'your_testing_password';
+      CREATE ROLE testing WITH LOGIN SUPERUSER PASSWORD 'testing';
    END IF;
 END
 $do$;
