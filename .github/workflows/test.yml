@@ -18,35 +18,35 @@ jobs:
 
       - name: Set up Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d pgsql.test
-          docker-compose -f docker-compose.yml build laravel.test
-          docker-compose -f docker-compose.yml up -d laravel.test
+          docker-compose -f docker-compose.yml up -d pgsql.app
+          docker-compose -f docker-compose.yml build laravel.app
+          docker-compose -f docker-compose.yml up -d laravel.app
 
       - name: Wait for PostgreSQL
         run: |
           echo "Waiting for PostgreSQL to be ready..."
           max_wait=120
           waited=0
-          while ! docker-compose exec -T pgsql.test pg_isready -U $(grep DB_USERNAME .env.testing | cut -d '=' -f2) -d $(grep DB_DATABASE .env.testing | cut -d '=' -f2); do
+          while ! docker-compose exec -T pgsql.app pg_isready -U $(grep DB_USERNAME .env.testing | cut -d '=' -f2) -d $(grep DB_DATABASE .env.testing | cut -d '=' -f2); do
             echo "PostgreSQL is not ready yet. Waiting..."
             sleep 3
             waited=$((waited + 3))
             if [ $waited -ge $max_wait ]; then
               echo "PostgreSQL failed to become ready within $max_wait seconds."
-              docker-compose logs pgsql.test
+              docker-compose logs pgsql.app
               exit 1
             fi
           done
           echo "PostgreSQL is ready."
 
       - name: Install Composer dependencies
-        run: docker-compose exec -T laravel.test composer install
+        run: docker-compose exec -T laravel.app composer install
 
       - name: Run migrations
-        run: docker-compose exec -T laravel.test php artisan migrate --env=testing --force
+        run: docker-compose exec -T laravel.app php artisan migrate --env=testing --force
 
       - name: Run tests
-        run: docker-compose exec -T laravel.test php artisan test --env=testing
+        run: docker-compose exec -T laravel.app php artisan test --env=testing
 
       - name: Tear down Docker Compose
         if: always()
