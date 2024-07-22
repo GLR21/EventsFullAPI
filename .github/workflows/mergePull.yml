@@ -24,4 +24,4 @@ jobs:
         #env:
         #  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          sshpass -p ${{ secrets.SSH_PSWD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /path/to/your/project &&  touch test1.txt'
+          sshpass -p ${{ secrets.SSH_PSWD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd /project &&  touch test1.txt'
