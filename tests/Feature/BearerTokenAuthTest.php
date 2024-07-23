@@ -21,4 +21,10 @@ class BearerTokenAuthTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function testBearer()
+    {
+        $this->unauthenticated_users_cannot_access_protected_route();
+        $this->authenticated_users_can_access_protected_route();
+    }
 }
