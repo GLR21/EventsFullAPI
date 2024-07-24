@@ -21,7 +21,8 @@ class EventResource extends JsonResource
             'dt_start' => $this->dt_start,
             'dt_end' => $this->dt_end,
             'dt_start_subscription' => $this->dt_start_subscription,
-            'dt_end_subscription' => $this->dt_end_subscription
+            'dt_end_subscription' => $this->dt_end_subscription,
+            'color' => $this->color
         ];
     }
 }
