@@ -11,6 +11,15 @@ class Event extends Model
 
     protected $table = 'events';
 
+    protected $fillable = [
+        'name',
+        'description',
+        'dt_start',
+        'dt_end',
+        'dt_start_subscription',
+        'dt_end_subscription'
+    ];
+
     public $timestamps = false;
 
     public function getForeignKey(): string
