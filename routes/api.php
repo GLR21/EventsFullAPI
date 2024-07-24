@@ -5,6 +5,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], f
 
         Route::get('events', 'EventController@index');
         Route::get('events/{event}', 'EventController@show');
+        Route::post('events/register', 'EventController@store');
+        Route::delete('events/{event}/delete', 'EventController@destroy');
 
         Route::get('subscriptions', 'SubscriptionController@index');
         Route::get('subscriptions/{subscription}', 'SubscriptionController@show');
