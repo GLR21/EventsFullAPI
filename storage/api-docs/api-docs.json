@@ -161,6 +161,106 @@
                 ]
             }
         },
+        "/api/v1/events/register": {
+            "post": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Register a new event",
+                "description": "Returns the created event",
+                "operationId": "7ef639e68af055f355adb2e510498bf6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "dt_start",
+                                    "dt_end",
+                                    "dt_start_subscription",
+                                    "dt_end_subscription"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Event name"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Event description"
+                                    },
+                                    "dt_start": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "dt_end": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "dt_start_subscription": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "dt_end_subscription": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Event name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Event description"
+                                        },
+                                        "dt_start": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "dt_end": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "dt_start_subscription": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "dt_end_subscription": {
+                                            "type": "string",
+                                            "format": "date"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/events/{event}": {
             "get": {
                 "tags": [
@@ -224,6 +324,32 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/v1/events/{event}/delete": {
+            "delete": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Delete an event",
+                "description": "Delete an event by ID",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event ID",
+                        "required": true,
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event deleted"
+                    }
+                }
             }
         },
         "/api/v1/subscriptions": {
